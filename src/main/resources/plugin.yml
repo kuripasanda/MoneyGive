@@ -1,0 +1,4 @@
+name: MoneyGive
+version: '${version}'
+main: net.fukumaisaba.moneygive.MoneyGive
+api-version: 1.19
