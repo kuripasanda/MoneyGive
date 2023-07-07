@@ -2,6 +2,7 @@ package net.fukumaisaba.moneygive
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.Plugin
@@ -31,6 +32,9 @@ class MoneyGive : JavaPlugin() {
             // CommandAPI 連携
             CommandAPI.onLoad(CommandAPIBukkitConfig(this))
             CommandAPI.onEnable()
+
+            // コマンド登録
+            MoneyGiveCommand().register(dbHelper)
 
         }
 
