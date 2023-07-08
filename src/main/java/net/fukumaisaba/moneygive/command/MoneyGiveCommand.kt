@@ -25,6 +25,11 @@ class MoneyGiveCommand {
                 val player = args.get(0) as OfflinePlayer // 付与したいプレイヤー
                 val amount = args.get(1) as Double // 付与したい金額
 
+                if (player.name == null) {
+                    Message.sendMessage(sender, true, "&cそのプレイヤーは存在しません！")
+                    return@CommandExecutor
+                }
+
                 val uuid = player.uniqueId
 
                 // 演出
