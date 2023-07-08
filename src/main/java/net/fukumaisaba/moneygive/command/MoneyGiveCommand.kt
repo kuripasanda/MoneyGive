@@ -6,7 +6,9 @@ import dev.jorel.commandapi.arguments.OfflinePlayerArgument
 import dev.jorel.commandapi.executors.CommandExecutor
 import net.fukumaisaba.moneygive.MoneyGive
 import net.fukumaisaba.moneygive.util.DatabaseHelper
-import net.fukumaisaba.moneygive.util.Message
+import net.fukumaisaba.moneygive.util.message.ConfigMessage
+import net.fukumaisaba.moneygive.util.message.ConfigMessageType
+import net.fukumaisaba.moneygive.util.message.Message
 import org.bukkit.OfflinePlayer
 
 class MoneyGiveCommand {
@@ -26,11 +28,21 @@ class MoneyGiveCommand {
                 val uuid = player.uniqueId
 
                 // 演出
-                Message.sendMessage(sender, true, "&aプレイヤーに&e${amount}円を付与しました")
+                val replaceTexts = HashMap<String, String>()
+                replaceTexts["%player%"] = player.name!!
+                replaceTexts["rimitter"] = sender.name
+                replaceTexts["%money%"] = amount.toString()
+                replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
+                Message.sendMessage(sender, true,
+                    Message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GIVE_SUCCESS), replaceTexts))
 
                 // プレイヤーがオンラインか
                 if (player.isOnline) {
                     vaultEconomy.depositPlayer(player, amount)
+
+                    // 演出
+                    Message.sendMessage(player.player!!, true,
+                        Message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET), replaceTexts))
                 }else {
                     // 現在の付与する金額
                     val nowGiveAmount = dbHelper.getPlayerGiveMoney(uuid)

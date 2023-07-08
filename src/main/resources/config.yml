@@ -1,0 +1,28 @@
+config:
+  # 参加時にお金を付与するまで待機するティック数(20Tick = 1秒)
+  giveMoneyWaitTick: 40
+
+messages:
+  PREFIX: "&6[MoneyGive]&f"
+
+  # お金の単位
+  MONEY_UNIT: "円"
+
+  # お金を付与した際のメッセージ
+  #   %player%: 付与先のプレイヤーの名前
+  #   %money%: 金額
+  #   %moneyUnit% お金の単位
+  MONEY_GIVE_SUCCESS: "&a%player%&aに&e%money%%moneyUnit%&aを付与しました"
+
+  # お金を獲得した際のメッセージ
+  #   %player%: 付与されたプレイヤーの名前
+  #   %remitter%: 付与したプレイヤーの名前
+  #   %money%: 金額
+  #   %moneyUnit% お金の単位
+  MONEY_GET: "&e%money%%moneyUnit%&aを獲得しました！"
+
+  # 参加時にお金を獲得した際のメッセージ
+  #   %player%: 付与されたプレイヤーの名前
+  #   %amount%: 金額
+  #   %moneyUnit% お金の単位
+  MONEY_GET_OFFLINE: "&aあなたがオフラインの間に&e%money%%moneyUnit%&aを獲得しました！"

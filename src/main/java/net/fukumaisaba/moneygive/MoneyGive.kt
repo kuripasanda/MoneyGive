@@ -3,6 +3,8 @@ package net.fukumaisaba.moneygive
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
 import net.fukumaisaba.moneygive.command.MoneyGiveCommand
+import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
+import net.fukumaisaba.moneygive.listener.PlayerJoin
 import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.Plugin
@@ -15,6 +17,13 @@ class MoneyGive : JavaPlugin() {
     companion object {
         lateinit var plugin: Plugin private set
         lateinit var vaultEconomy: Economy private set
+
+        private lateinit var dbHelper: DatabaseHelper
+
+        fun reload() {
+            plugin.saveDefaultConfig()
+            plugin.reloadConfig()
+        }
     }
 
     override fun onEnable() {
@@ -23,8 +32,11 @@ class MoneyGive : JavaPlugin() {
 
         val time = measureTimeMillis {
 
+            // 設定ファイル
+            saveDefaultConfig()
+
             // データベース関連
-            val dbHelper = DatabaseHelper()
+            dbHelper = DatabaseHelper()
 
             // VaultAPI 連携
             setupEconomy()
@@ -35,6 +47,10 @@ class MoneyGive : JavaPlugin() {
 
             // コマンド登録
             MoneyGiveCommand().register(dbHelper)
+            MoneyGiveReloadCommand().register()
+
+            // リスナー登録
+            server.pluginManager.registerEvents(PlayerJoin(dbHelper), this)
 
         }
 
