@@ -3,6 +3,12 @@ version: '${version}'
 main: net.fukumaisaba.moneygive.MoneyGive
 api-version: 1.19
 
+depend:
+  - Vault
+
+softdepend:
+  - Vault
+
 permissions:
   moneygive:
     .description: ""
