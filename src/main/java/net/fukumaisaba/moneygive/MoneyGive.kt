@@ -6,6 +6,7 @@ import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
 import net.fukumaisaba.moneygive.listener.PlayerJoin
 import net.fukumaisaba.moneygive.util.DatabaseHelper
+import net.fukumaisaba.moneygive.util.message.Message
 import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
@@ -23,6 +24,8 @@ class MoneyGive : JavaPlugin() {
         fun reload() {
             plugin.saveDefaultConfig()
             plugin.reloadConfig()
+
+            Message.prefix = plugin.config.getString("messages.PREFIX", "&6[MoneyGive]&f")!!
         }
     }
 
