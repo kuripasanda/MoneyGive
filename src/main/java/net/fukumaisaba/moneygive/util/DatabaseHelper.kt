@@ -42,7 +42,7 @@ class DatabaseHelper {
         try {
 
             val con = hikari!!.connection
-            val prestate = con.prepareStatement("CREATE TABLE `${userDataTableName}` (`id` INTEGER NOT NULL, `uuid` VARCHAR(100) NOT NULL DEFAULT '', `amount` DOUBLE DEFAULT 0.0, `updated_at` TIMESTAMP DEFAULT(DATETIME('now', 'localtime')), PRIMARY KEY (`id`));")
+            val prestate = con.prepareStatement("CREATE TABLE IF NOT EXISTS `${userDataTableName}` (`id` INTEGER NOT NULL, `uuid` VARCHAR(100) NOT NULL DEFAULT '', `amount` DOUBLE DEFAULT 0.0, `updated_at` TIMESTAMP DEFAULT(DATETIME('now', 'localtime')), PRIMARY KEY (`id`));")
 
             prestate.executeUpdate()
 
