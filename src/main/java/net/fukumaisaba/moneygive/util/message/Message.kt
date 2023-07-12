@@ -3,6 +3,7 @@ package net.fukumaisaba.moneygive.util.message
 import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import kotlin.math.ceil
 
 class Message {
 
@@ -22,6 +23,10 @@ class Message {
         }
 
         return replacedText
+    }
+
+    fun formatMoney(amount: Double): Double {
+        return (ceil(amount *1000.0) / 1000.0)
     }
 
 

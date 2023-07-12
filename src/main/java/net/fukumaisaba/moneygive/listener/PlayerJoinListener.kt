@@ -32,7 +32,7 @@ class PlayerJoinListener: Listener {
                 // 演出
                 val replaceTexts = HashMap<String, String>()
                 replaceTexts["%player%"] = player.name
-                replaceTexts["%money%"] = (ceil(nowGiveAmount *1000.0) / 1000.0).toString()
+                replaceTexts["%money%"] = message.formatMoney(nowGiveAmount).toString()
                 replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
                 message.sendMessage(player, true,
                     message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET_OFFLINE), replaceTexts))

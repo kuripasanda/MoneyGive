@@ -35,7 +35,7 @@ class MoneyGiveCommand {
                 val replaceTexts = HashMap<String, String>()
                 replaceTexts["%player%"] = player.name!!
                 replaceTexts["rimitter"] = sender.name
-                replaceTexts["%money%"] = amount.toString()
+                replaceTexts["%money%"] = message.formatMoney(amount).toString()
                 replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
                 message.sendMessage(sender, true,
                     message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GIVE_SUCCESS), replaceTexts))
