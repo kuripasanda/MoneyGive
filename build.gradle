@@ -28,7 +28,6 @@ dependencies {
     implementation "dev.jorel:commandapi-bukkit-shade:9.0.2" // CommandAPI(Shading)
     implementation "com.zaxxer:HikariCP:4.0.3" // HikariCP (Database Library)
     compileOnly "com.github.MilkBowl:VaultAPI:1.7" // VaultAPI
-    implementation "com.github.AuroraLS3:Vault-Events:b97187c8e8fc35ffb2e80462b0174a8ab60245db"
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
 }
 
