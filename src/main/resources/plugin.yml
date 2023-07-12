@@ -6,6 +6,10 @@ api-version: 1.19
 depend:
   - Vault
 
+softdepend:
+  - Vault
+  - iConomy
+
 permissions:
   moneygive:
     .description: ""

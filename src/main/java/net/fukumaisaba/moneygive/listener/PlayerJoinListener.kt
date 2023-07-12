@@ -8,15 +8,16 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class PlayerJoinListener(): Listener {
+class PlayerJoinListener: Listener {
 
     private val plugin = MoneyGive.plugin
-    private val api = MoneyGive.api
-    private val vaultHook = MoneyGive.vaultHook
     private val message = MoneyGive.message
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
+
+        val api = MoneyGive.api
+        val vaultHook = MoneyGive.vaultHook
 
         val player = event.player
 

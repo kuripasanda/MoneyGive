@@ -13,6 +13,11 @@ class MoneyGiveApiImpl(private val dbHelper: DatabaseHelper): MoneyGiveApi {
         dbHelper.setPlayerGiveMoney(player.uniqueId, amount)
     }
 
+    override fun addGiveBalance(player: OfflinePlayer, amount: Double) {
+        val nowGiveBalance = getGiveBalance(player)
+        setGiveBalance(player, (nowGiveBalance + amount))
+    }
+
     override fun depositPlayer(player: OfflinePlayer, amount: Double) {
         dbHelper.depositPlayer(player.uniqueId, amount)
     }

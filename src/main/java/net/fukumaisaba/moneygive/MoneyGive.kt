@@ -6,8 +6,7 @@ import net.fukumaisaba.moneygive.api.MoneyGiveApi
 import net.fukumaisaba.moneygive.api.MoneyGiveApiImpl
 import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
-import net.fukumaisaba.moneygive.listener.PlayerJoinListener
-import net.fukumaisaba.moneygive.listener.VaultTransactionListener
+import net.fukumaisaba.moneygive.listener.ListenerHandler
 import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.fukumaisaba.moneygive.util.VaultHook
 import net.fukumaisaba.moneygive.util.message.Message
@@ -26,6 +25,8 @@ class MoneyGive : JavaPlugin() {
         lateinit var api: MoneyGiveApi private set
 
         private lateinit var dbHelper: DatabaseHelper
+        private lateinit var listenerHandler: ListenerHandler
+        private lateinit var instance: MoneyGive
 
         fun reload() {
             plugin.saveDefaultConfig()
@@ -38,6 +39,7 @@ class MoneyGive : JavaPlugin() {
     override fun onEnable() {
         // 起動処理
         plugin = this
+        instance = this
 
         val time = measureTimeMillis {
 
@@ -50,7 +52,7 @@ class MoneyGive : JavaPlugin() {
             // データベース関連
             dbHelper = DatabaseHelper()
 
-            // VaultAPI 連携
+            // 連携
             vaultHook = VaultHook()
 
             // API
@@ -64,15 +66,31 @@ class MoneyGive : JavaPlugin() {
             MoneyGiveCommand().register()
             MoneyGiveReloadCommand().register()
 
-            // リスナー登録
-            server.pluginManager.registerEvents(PlayerJoinListener(), this)
-            server.pluginManager.registerEvents(VaultTransactionListener(), this)
+            // イベントリスナ関係
+            listenerHandler = ListenerHandler(this, this)
+            listenerHandler.registerBasicListeners()
+            hookOtherPlugins()
 
         }
 
         logger.info("MoneyGiveが起動しました (${time}ms)")
 
     }
+
+    fun hookOtherPlugins() {
+        // Vault
+        if (server.pluginManager.isPluginEnabled("Vault")) {
+            logger.info("Vaultと連携しました！")
+        }
+
+        // iConomy
+        if (server.pluginManager.isPluginEnabled("iConomy")) {
+            logger.info("iConomyと連携しました！")
+            listenerHandler.registerIConomyListeners()
+        }
+    }
+
+    fun setVaultHook(newVaultHook: VaultHook) { vaultHook = newVaultHook }
 
     override fun onDisable() {
         // 停止処理
