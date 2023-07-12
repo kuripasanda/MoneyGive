@@ -20,7 +20,7 @@ class VaultTransactionListener: Listener {
         // オフラインなら
         if (!player.isOnline) {
             // キャンセル
-            vaultHook.withdrawPlayer(player, amount)
+            vaultHook.giveMoney(player, -amount)
 
             // 付与
             api.depositPlayer(player, amount)
@@ -37,7 +37,7 @@ class VaultTransactionListener: Listener {
         // オフラインなら
         if (!player.isOnline) {
             // キャンセル
-            vaultHook.depositPlayer(player, amount)
+            vaultHook.giveMoney(player, -amount)
 
             // 付与
             api.withdrawPlayer(player, amount)
