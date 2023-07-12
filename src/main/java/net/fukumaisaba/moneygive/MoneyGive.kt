@@ -6,7 +6,8 @@ import net.fukumaisaba.moneygive.api.MoneyGiveApi
 import net.fukumaisaba.moneygive.api.MoneyGiveApiImpl
 import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
-import net.fukumaisaba.moneygive.listener.PlayerJoin
+import net.fukumaisaba.moneygive.listener.PlayerJoinListener
+import net.fukumaisaba.moneygive.listener.VaultTransactionListener
 import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.fukumaisaba.moneygive.util.VaultHook
 import net.fukumaisaba.moneygive.util.message.Message
@@ -52,6 +53,9 @@ class MoneyGive : JavaPlugin() {
             // VaultAPI 連携
             vaultHook = VaultHook()
 
+            // API
+            api = MoneyGiveApiImpl(dbHelper)
+
             // CommandAPI 連携
             CommandAPI.onLoad(CommandAPIBukkitConfig(this))
             CommandAPI.onEnable()
@@ -61,10 +65,8 @@ class MoneyGive : JavaPlugin() {
             MoneyGiveReloadCommand().register()
 
             // リスナー登録
-            server.pluginManager.registerEvents(PlayerJoin(), this)
-
-            // API
-            api = MoneyGiveApiImpl(dbHelper)
+            server.pluginManager.registerEvents(PlayerJoinListener(), this)
+            server.pluginManager.registerEvents(VaultTransactionListener(), this)
 
         }
 
