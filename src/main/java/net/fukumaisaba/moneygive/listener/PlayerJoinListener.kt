@@ -7,6 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
+import kotlin.math.ceil
 
 class PlayerJoinListener: Listener {
 
@@ -31,7 +32,7 @@ class PlayerJoinListener: Listener {
                 // 演出
                 val replaceTexts = HashMap<String, String>()
                 replaceTexts["%player%"] = player.name
-                replaceTexts["%money%"] = nowGiveAmount.toString()
+                replaceTexts["%money%"] = (ceil(nowGiveAmount *1000.0) / 1000.0).toString()
                 replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
                 message.sendMessage(player, true,
                     message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET_OFFLINE), replaceTexts))
