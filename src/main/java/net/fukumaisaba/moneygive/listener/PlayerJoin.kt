@@ -1,33 +1,31 @@
 package net.fukumaisaba.moneygive.listener
 
 import net.fukumaisaba.moneygive.MoneyGive
-import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.fukumaisaba.moneygive.util.message.ConfigMessage
 import net.fukumaisaba.moneygive.util.message.ConfigMessageType
-import net.fukumaisaba.moneygive.util.message.Message
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 
-class PlayerJoin(val dbHelper: DatabaseHelper): Listener {
+class PlayerJoin(): Listener {
 
     private val plugin = MoneyGive.plugin
-    private val vaultEconomy = MoneyGive.vaultEconomy
+    private val api = MoneyGive.api
+    private val vaultHook = MoneyGive.vaultHook
     private val message = MoneyGive.message
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
 
         val player = event.player
-        val uuid = player.uniqueId
 
-        val nowGiveAmount = dbHelper.getPlayerGiveMoney(uuid)
+        val nowGiveAmount = api.getGiveBalance(player)
 
         if (nowGiveAmount > 0.0) {
-            dbHelper.deletePlayerData(uuid)
+            api.deletePlayerData(player)
             Bukkit.getScheduler().runTaskLater(plugin, Runnable {
-                vaultEconomy.depositPlayer(player, nowGiveAmount)
+                vaultHook.depositPlayer(player, nowGiveAmount)
 
                 // 演出
                 val replaceTexts = HashMap<String, String>()

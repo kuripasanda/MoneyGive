@@ -8,15 +8,15 @@ import net.fukumaisaba.moneygive.MoneyGive
 import net.fukumaisaba.moneygive.util.DatabaseHelper
 import net.fukumaisaba.moneygive.util.message.ConfigMessage
 import net.fukumaisaba.moneygive.util.message.ConfigMessageType
-import net.fukumaisaba.moneygive.util.message.Message
 import org.bukkit.OfflinePlayer
 
 class MoneyGiveCommand {
 
-    private val vaultEconomy = MoneyGive.vaultEconomy
+    private val vaultHook = MoneyGive.vaultHook
     private val message = MoneyGive.message
+    private val api = MoneyGive.api
 
-    fun register(dbHelper: DatabaseHelper) {
+    fun register() {
 
         CommandAPICommand("moneygive")
             .withArguments(OfflinePlayerArgument("player"))
@@ -31,8 +31,6 @@ class MoneyGiveCommand {
                     return@CommandExecutor
                 }
 
-                val uuid = player.uniqueId
-
                 // 演出
                 val replaceTexts = HashMap<String, String>()
                 replaceTexts["%player%"] = player.name!!
@@ -44,13 +42,13 @@ class MoneyGiveCommand {
 
                 // プレイヤーがオンラインか
                 if (player.isOnline) {
-                    vaultEconomy.depositPlayer(player, amount)
+                    vaultHook.depositPlayer(player, amount)
 
                     // 演出
                     message.sendMessage(player.player!!, true,
                         message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET), replaceTexts))
                 }else {
-                    dbHelper.depositPlayer(uuid, amount)
+                    api.depositPlayer(player, amount)
                 }
 
             })

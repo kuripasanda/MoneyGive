@@ -12,4 +12,6 @@ interface MoneyGiveApi {
 
     fun withdrawPlayer(player: OfflinePlayer, amount: Double)
 
+    fun deletePlayerData(player: OfflinePlayer)
+
 }

@@ -8,8 +8,8 @@ import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
 import net.fukumaisaba.moneygive.listener.PlayerJoin
 import net.fukumaisaba.moneygive.util.DatabaseHelper
+import net.fukumaisaba.moneygive.util.VaultHook
 import net.fukumaisaba.moneygive.util.message.Message
-import net.milkbowl.vault.economy.Economy
 import org.bukkit.plugin.Plugin
 import org.bukkit.plugin.java.JavaPlugin
 import kotlin.system.measureTimeMillis
@@ -19,7 +19,7 @@ class MoneyGive : JavaPlugin() {
 
     companion object {
         lateinit var plugin: Plugin private set
-        lateinit var vaultEconomy: Economy private set
+        lateinit var vaultHook: VaultHook private set
         lateinit var message: Message private set
 
         lateinit var api: MoneyGiveApi private set
@@ -50,18 +50,18 @@ class MoneyGive : JavaPlugin() {
             dbHelper = DatabaseHelper()
 
             // VaultAPI 連携
-            setupEconomy()
+            vaultHook = VaultHook()
 
             // CommandAPI 連携
             CommandAPI.onLoad(CommandAPIBukkitConfig(this))
             CommandAPI.onEnable()
 
             // コマンド登録
-            MoneyGiveCommand().register(dbHelper)
+            MoneyGiveCommand().register()
             MoneyGiveReloadCommand().register()
 
             // リスナー登録
-            server.pluginManager.registerEvents(PlayerJoin(dbHelper), this)
+            server.pluginManager.registerEvents(PlayerJoin(), this)
 
             // API
             api = MoneyGiveApiImpl(dbHelper)
@@ -74,18 +74,6 @@ class MoneyGive : JavaPlugin() {
 
     override fun onDisable() {
         // 停止処理
-    }
-
-
-    private fun setupEconomy(): Boolean {
-        if (server.pluginManager.getPlugin("Vault") == null) {
-            return false
-        }
-        val rsp = server.servicesManager.getRegistration(
-            Economy::class.java
-        ) ?: return false
-        vaultEconomy = rsp.provider
-        return true
     }
 
 }

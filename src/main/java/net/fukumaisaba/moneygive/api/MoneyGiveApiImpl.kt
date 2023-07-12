@@ -21,5 +21,9 @@ class MoneyGiveApiImpl(private val dbHelper: DatabaseHelper): MoneyGiveApi {
         dbHelper.withdrawPlayer(player.uniqueId, amount)
     }
 
+    override fun deletePlayerData(player: OfflinePlayer) {
+        dbHelper.deletePlayerData(player.uniqueId)
+    }
+
 
 }
