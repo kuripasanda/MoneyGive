@@ -14,6 +14,7 @@ class PlayerJoin(val dbHelper: DatabaseHelper): Listener {
 
     private val plugin = MoneyGive.plugin
     private val vaultEconomy = MoneyGive.vaultEconomy
+    private val message = MoneyGive.message
 
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
@@ -33,8 +34,8 @@ class PlayerJoin(val dbHelper: DatabaseHelper): Listener {
                 replaceTexts["%player%"] = player.name
                 replaceTexts["%money%"] = nowGiveAmount.toString()
                 replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
-                Message.sendMessage(player, true,
-                    Message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET_OFFLINE), replaceTexts))
+                message.sendMessage(player, true,
+                    message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET_OFFLINE), replaceTexts))
             }, plugin.config.getLong("config.giveMoneyWaitTick", 20L))
         }
 

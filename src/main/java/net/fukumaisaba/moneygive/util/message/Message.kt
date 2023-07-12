@@ -4,7 +4,7 @@ import org.bukkit.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
-object Message {
+class Message {
 
     var prefix = getColored("&6[MoneyGive]&f")
         set(newPrefix) {

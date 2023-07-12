@@ -2,6 +2,8 @@ package net.fukumaisaba.moneygive
 
 import dev.jorel.commandapi.CommandAPI
 import dev.jorel.commandapi.CommandAPIBukkitConfig
+import net.fukumaisaba.moneygive.api.MoneyGiveApi
+import net.fukumaisaba.moneygive.api.MoneyGiveApiImpl
 import net.fukumaisaba.moneygive.command.MoneyGiveCommand
 import net.fukumaisaba.moneygive.command.MoneyGiveReloadCommand
 import net.fukumaisaba.moneygive.listener.PlayerJoin
@@ -18,6 +20,9 @@ class MoneyGive : JavaPlugin() {
     companion object {
         lateinit var plugin: Plugin private set
         lateinit var vaultEconomy: Economy private set
+        lateinit var message: Message private set
+
+        lateinit var api: MoneyGiveApi private set
 
         private lateinit var dbHelper: DatabaseHelper
 
@@ -25,7 +30,7 @@ class MoneyGive : JavaPlugin() {
             plugin.saveDefaultConfig()
             plugin.reloadConfig()
 
-            Message.prefix = plugin.config.getString("messages.PREFIX", "&6[MoneyGive]&f")!!
+            message.prefix = plugin.config.getString("messages.PREFIX", "&6[MoneyGive]&f")!!
         }
     }
 
@@ -37,6 +42,9 @@ class MoneyGive : JavaPlugin() {
 
             // 設定ファイル
             saveDefaultConfig()
+
+            // メッセージ関連
+            message = Message()
 
             // データベース関連
             dbHelper = DatabaseHelper()
@@ -54,6 +62,9 @@ class MoneyGive : JavaPlugin() {
 
             // リスナー登録
             server.pluginManager.registerEvents(PlayerJoin(dbHelper), this)
+
+            // API
+            api = MoneyGiveApiImpl(dbHelper)
 
         }
 

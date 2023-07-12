@@ -132,4 +132,20 @@ class DatabaseHelper {
         }
     }
 
+    fun depositPlayer(uuid: UUID, amount: Double) {
+        // 現段階での付与予定の金額
+        val nowGiveMoney = getPlayerGiveMoney(uuid)
+
+        // 設定
+        setPlayerGiveMoney(uuid, nowGiveMoney + amount)
+    }
+
+    fun withdrawPlayer(uuid: UUID, amount: Double) {
+        // 現段階での付与予定の金額
+        val nowGiveMoney = getPlayerGiveMoney(uuid)
+
+        // 設定
+        setPlayerGiveMoney(uuid, nowGiveMoney - amount)
+    }
+
 }

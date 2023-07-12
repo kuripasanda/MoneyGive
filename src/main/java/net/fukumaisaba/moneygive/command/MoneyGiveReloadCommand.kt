@@ -7,13 +7,15 @@ import net.fukumaisaba.moneygive.util.message.Message
 
 class MoneyGiveReloadCommand {
 
+    private val message = MoneyGive.message
+
     fun register() {
 
         CommandAPICommand("moneygivereload")
             .withPermission("moneygive.commands.reload")
             .executes(CommandExecutor { sender, _ ->
                 MoneyGive.reload()
-                Message.sendMessage(sender, true, "&a設定を再読込しました！")
+                message.sendMessage(sender, true, "&a設定を再読込しました！")
             })
             .register()
 

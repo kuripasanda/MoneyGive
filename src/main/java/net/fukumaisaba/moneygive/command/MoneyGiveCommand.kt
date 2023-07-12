@@ -14,6 +14,7 @@ import org.bukkit.OfflinePlayer
 class MoneyGiveCommand {
 
     private val vaultEconomy = MoneyGive.vaultEconomy
+    private val message = MoneyGive.message
 
     fun register(dbHelper: DatabaseHelper) {
 
@@ -26,7 +27,7 @@ class MoneyGiveCommand {
                 val amount = args.get(1) as Double // 付与したい金額
 
                 if (player.name == null) {
-                    Message.sendMessage(sender, true, "&cそのプレイヤーは存在しません！")
+                    message.sendMessage(sender, true, "&cそのプレイヤーは存在しません！")
                     return@CommandExecutor
                 }
 
@@ -38,22 +39,18 @@ class MoneyGiveCommand {
                 replaceTexts["rimitter"] = sender.name
                 replaceTexts["%money%"] = amount.toString()
                 replaceTexts["%moneyUnit%"] = ConfigMessage().getMessage(ConfigMessageType.MONEY_UNIT)
-                Message.sendMessage(sender, true,
-                    Message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GIVE_SUCCESS), replaceTexts))
+                message.sendMessage(sender, true,
+                    message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GIVE_SUCCESS), replaceTexts))
 
                 // プレイヤーがオンラインか
                 if (player.isOnline) {
                     vaultEconomy.depositPlayer(player, amount)
 
                     // 演出
-                    Message.sendMessage(player.player!!, true,
-                        Message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET), replaceTexts))
+                    message.sendMessage(player.player!!, true,
+                        message.getReplaced(ConfigMessage().getMessage(ConfigMessageType.MONEY_GET), replaceTexts))
                 }else {
-                    // 現在の付与する金額
-                    val nowGiveAmount = dbHelper.getPlayerGiveMoney(uuid)
-
-                    // 付与する金額を設定
-                    dbHelper.setPlayerGiveMoney(uuid, (nowGiveAmount + amount))
+                    dbHelper.depositPlayer(uuid, amount)
                 }
 
             })
