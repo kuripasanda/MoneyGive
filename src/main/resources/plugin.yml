@@ -21,7 +21,7 @@ permissions:
     children:
       moneygive.commands.moneygive:
         description: ""
-        default: not op
+        default: op
       moneygive.commands.reload:
         description: ""
         default: op
