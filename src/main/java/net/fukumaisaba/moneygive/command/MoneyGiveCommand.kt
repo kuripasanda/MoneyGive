@@ -19,6 +19,7 @@ class MoneyGiveCommand {
     fun register() {
 
         CommandAPICommand("moneygive")
+            .withPermission("moneygive.commands.moneygive")
             .withArguments(OfflinePlayerArgument("player"))
             .withArguments(DoubleArgument("amount"))
             .executes(CommandExecutor { sender, args ->
