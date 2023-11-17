@@ -25,7 +25,7 @@ repositories {
 dependencies {
     compileOnly "org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT"
 
-    implementation "dev.jorel:commandapi-bukkit-shade:9.0.3" // CommandAPI(Shading)
+    implementation "dev.jorel:commandapi-bukkit-shade:9." // CommandAPI(Shading)
     implementation "com.zaxxer:HikariCP:4.0.3" // HikariCP (Database Library)
     compileOnly "com.github.MilkBowl:VaultAPI:1.7" // VaultAPI
     compileOnly "com.github.iconomy5legacy:iConomy:5.20" // iConomy5
